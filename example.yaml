@@ -1,0 +1,67 @@
+# the CLI reduces this project.yaml to a single JSON object which it sends to
+# https://{host}/api/configure
+
+# this is just for one project
+id: 123-abc-def
+name: Example Project
+
+# what if, in the future, jobs have multiple triggers?
+workflows:
+  workflow-a:
+    jobs:
+      job-2:
+        name: fetch dhis2 data
+        ## This credential doesn't exist... create shell?
+        credential:
+          name: my-salesforce-keys
+          # encrypted: "file://mycreds.gpg"
+          # If we can't find this cred, then we create one with {} empty json body, owned by the deployer
+          body: ## would this even get picked up by our configurer.ex?
+            username: blah
+            password: *** 
+        # - - - variant
+        credential: my-salesforce-keys
+        # - - - variant 2
+        credential:
+          name: my-salesforce-keys
+          body: file://blah.json ## for CREDENTIALS we only follow a path.
+        trigger: 
+          type: flow
+          # - - -
+          flow:
+            on-failure: job-3
+        expression: ...
+
+workflows:
+  workflow-a:
+    jobs:
+      job-3:
+        trigger: 
+          cron: * 5 * * *
+      job-4:
+        trigger: webhook
+        # - - - later maybe - - -
+        trigger: 
+          webhook:
+            path: /my-custom/endpoint
+            api-key: foo
+        
+# out of scope?
+# if it finds "projects" then it expects "users" and "credentials"
+# if it finds "workflows" then it's for one project
+# this would only be usable by a superuser
+projects:
+  import: "first-project/project.yaml"
+  import: "second-project/project.yaml"
+
+  second-project:
+    credentials:
+      - my-salesforce-keys
+  
+
+# different file 'credentials.yaml', private encrypted or not committed
+# cli deploy credentials.yaml
+credentials:
+  my-salesforce-keys:
+    username: blah
+    password: ***

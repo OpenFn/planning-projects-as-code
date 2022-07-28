@@ -1,0 +1,67 @@
+# First define our workflows with a `workflows` key
+
+name: "My Big Project"
+endpoint: http://... 
+workflows:
+  CommCare-to-OpenMRS: #workflow names won't have spaces
+    jobs:
+      Coerce-to-FHIR:
+        trigger: webhook #webhook urls are uids so are not included
+        # credential: "file://./tmp/secret.json"
+        credential: "My FHIR Credential" #looks up credential in state by its name
+        # credential: cli option to run with local secrets???
+        # cli run workflow "CommCare-to-OpenMRS"
+        # WARNING, you didn't give us any secrets... we'll try to get them from openfn.org
+        # but we haven't built that feature yet!
+        # cli run workflow "CommCare-to-OpenMRS" --secrets ./credentials.yaml
+        # cli run workflow "CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
+        # cli run workflow "My Big Project.CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
+        expression:  > 
+          fn(state => {
+            const {surname, age} = state.data;
+            const fhirPayload = { name: surname, age };
+            return { ...state, fhirPayload };
+          });
+
+      Load-to-openmrs:
+        trigger:
+          on-success: Coerce-to-FHIR
+        credential: my-other-credential
+        expression: 
+          # no include: but pathlike doesn't work - if you're doing a uri you need to be exlicit about it
+          "file://./CommCare-to-OpenMRS/Load-to-openmrs.js" # default to local fs -- no numbering because too complicated if users change the order
+          "https://gist.github.com/foo/Load-to-openmrs.js"
+          "my code"
+      
+      Send-Wrap-Up-Reports:
+        trigger:
+          on-success: Load-to-openmrs
+        expression: >
+          # this triggers a new workflow
+          http.post(https://lightning.openfn.org/i/123-abc-321, state.data) 
+    
+  Kobo-to-DHIS2:
+    Fetch-Kobo-Submissions:
+      trigger:
+        cron: * 5 * * *
+  
+  Send-Confirmation-Reports:
+    send-first-email:
+      trigger: webhook
+      expression: send()
+      credential: ???
+    send-second-email:
+      trigger:
+        on-success: send-first-email
+      expression: >
+        send()
+      credential: ???
+
+
+
+
+
+
+# how do I run a workflow ?
+# where am I keeping m dataclips ?
+# what happens if the person doing the deployment is a github action ?

@@ -1,0 +1,30 @@
+{
+  // Look no red lines for stu!
+  "description": {
+    "how it's made": "this file is generated from project.yaml AND project.state.yaml",
+    "what it does": "it's sent to a lightning configuration endpoint"
+  },
+  "projects": [
+    {
+      "id": "sadbmk231",
+      "workflows": {
+        "jobs": [
+          {
+            "id": "4d2378ds",
+            "credential_id": "abc-123",
+            "enabled": true,
+            "name": "job-name",
+            "expression": "this is just a long string"
+          },
+          {
+            "id": "5dh23u8",
+            "credential_id": "723hjdks",
+            "enabled": false,
+            "name": "Other Cool Job",
+            "expression": "this is another long string; we read another file to put it here"
+          }
+        ]
+      }
+    }
+  ]
+}

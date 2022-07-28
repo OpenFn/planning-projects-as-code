@@ -1,0 +1,28 @@
+# - - - 
+# state is a flat list of resource KEYs and resource IDs
+# it is _different_ than the complied/emitted JSON blob that it produced BY
+# a combination of project.yaml and project.state.yaml
+# state maps project.yaml keys to UUIDs in db tables?
+workflows:
+  - id: "abc"
+    key: "CommCare-to-OpenMRS" # this is the NAME and the KEY
+
+jobs:
+  - id: "123"
+    key: Coerce-to-FHIR
+  - id: "456"
+    key: "Load-to-openmrs"
+
+credentials:
+  - id: "abc-1234"
+    key: "My FHIR Credential"
+
+# prototype-1.yaml.tfstate -- running a deployment on two different instances of lightning ? - matching an addressable path in the structure to a resource
+workflows.CommCare-to-OpenMRS:
+  id: 56743...
+  jobs: 
+  
+# This operation is performed on the state file
+# cli mv workflows.CommCare-to-OpenMRS workflows.CommCare-to-Zapier
+
+
