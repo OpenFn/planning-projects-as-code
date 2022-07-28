@@ -58,6 +58,16 @@ y
 # Click me to browse the beautiful workflow diagram: https://{host}/projectId
 ```
 
+```sh
+cli run workflow "CommCare-to-OpenMRS"
+# WARNING, you didn't give us any secrets... we'll try to get them from openfn.org
+# but we haven't built that feature yet!
+cli run workflow "CommCare-to-OpenMRS" --secrets ./credentials.yaml
+cli run workflow "CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
+cli run workflow "My Big Project.CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
+cli run workflow "My Big Project.CommCare-to-OpenMRS" --adaptors ./path/to/localAdaptors # OR IT NPM INSTALLS STUFF?
+```
+
 ## Out of scope
 
 1. Project users and IAM via project.yaml
