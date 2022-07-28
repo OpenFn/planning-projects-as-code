@@ -1,0 +1,3 @@
+my-salesforce-credential:
+  username: my-actual-username
+  password: this-is-really-my-password-and-ill-never-commit-it-to-github

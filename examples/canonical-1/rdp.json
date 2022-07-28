@@ -1,6 +1,7 @@
 {
-  // Look no red lines for stu!
   "description": {
+    // Look no red lines for stu!
+    "what it is": "a 'reduced deployment payload' (RDP)",
     "how it's made": "this file is generated from project.yaml AND project.state.yaml",
     "what it does": "it's sent to a lightning configuration endpoint"
   },
@@ -14,6 +15,7 @@
             "credential_id": "abc-123",
             "enabled": true,
             "name": "job-name",
+            "adaptor": "@openfn/language-http-v2.3.0",
             "expression": "this is just a long string"
           },
           {
@@ -21,6 +23,7 @@
             "credential_id": "723hjdks",
             "enabled": false,
             "name": "Other Cool Job",
+            "adaptor": "@openfn/language-commcare-v2.3.0",
             "expression": "this is another long string; we read another file to put it here"
           }
         ]
