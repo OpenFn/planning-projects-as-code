@@ -5,7 +5,6 @@
 id: 123-abc-def
 name: Example Project
 
-# what if, in the future, jobs have multiple triggers?
 workflows:
   workflow-a:
     jobs:
@@ -30,14 +29,19 @@ workflows:
           # - - -
           flow:
             on-failure: job-3
-        expression: ...
+        expression:  > 
+          fn(state => {
+            const { surname, age, sex } = state.data;
+            const { gender } = state.globals;
+            const fhirPayload = { name: surname, age, gender: gender[sex] };
+            return { ...state, fhirPayload };
+          });
 
-workflows:
-  workflow-a:
+  workflow-b:
     jobs:
       job-3:
         trigger: 
-          cron: * 5 * * *
+          cron: "* 5 * * *"
       job-4:
         trigger: webhook
         # - - - later maybe - - -
@@ -45,19 +49,6 @@ workflows:
           webhook:
             path: /my-custom/endpoint
             api-key: foo
-        
-# out of scope?
-# if it finds "projects" then it expects "users" and "credentials"
-# if it finds "workflows" then it's for one project
-# this would only be usable by a superuser
-projects:
-  import: "first-project/project.yaml"
-  import: "second-project/project.yaml"
-
-  second-project:
-    credentials:
-      - my-salesforce-keys
-  
 
 # different file 'credentials.yaml', private encrypted or not committed
 # cli deploy credentials.yaml
@@ -65,3 +56,15 @@ credentials:
   my-salesforce-keys:
     username: blah
     password: ***
+
+globals:
+  clinic-map-a:
+    abc123: Local Clinic 1
+    def456: Garey District Clinic
+    rooms:
+      '13': Clinic Room A
+      '22': Clinic Reception Area
+  gender:
+    m: male
+    f: female
+    nb: non-binary

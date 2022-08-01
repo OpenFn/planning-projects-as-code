@@ -26,3 +26,17 @@
   is interpreted is up to the user.
 - Do we have a single state file for all projects?  
   Or do we have one per project?
+
+```yml
+# out of scope?
+# if it finds "projects" then it expects "users" and "credentials"
+# if it finds "workflows" then it's for one project
+# this would only be usable by a superuser
+projects:
+  import: "first-project/project.yaml"
+  import: "second-project/project.yaml"
+
+  second-project:
+    credentials:
+      - my-salesforce-keys
+```
