@@ -52,14 +52,16 @@ N.B.: While you may call that first workflow `Kobo-to-Postgres`, it's got the ID
 
 ### .config.json
 
-Your `.config.json` file contains sensitive information about _where_ you're
+Your `.config.json` contains settings for the CLI,
+it can also have sensitive information about _where_ you're
 deploying a project and what apiToken to use when you call `devtools deploy`.
 
 ```json
 {
   "email": "taylor@openfn.org",
   "apiToken": "123-abc-456",
-  "apiUrl": "https://demo.openfn.org/api/v2"
+  "apiUrl": "https://demo.openfn.org/api/v2",
+  "createBlankCredentials": true,
 }
 ```
 
@@ -159,6 +161,7 @@ y
 ```sh
 @openfn/devtools run --workflow "CommCare-to-OpenMRS" -o ./tmp
 # Fetching values from URIs... (we might load secrets from OpenFn.org, or job expressions from other files on your system)
+# Interesting that none of your jobs have credentials. That's totally cool, just unusual.
 # Running `job-1`... ✅
 # Result written to `.tmp/job-1.output.json`
 # Running `job-2`... ✅
