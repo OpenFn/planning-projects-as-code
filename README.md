@@ -1,3 +1,8 @@
+_This repository outlines the specification v4 for making OpenFn integrations
+completely portable. It has been written as part of the deliverable 6.1
+'Specification for Lightning projects-as-code' of the Digital Square Global
+Goods grant._
+
 # OpenFn Portability Specification v4
 
 Providing our users with the freedom to leverage [our tools](link_to_toolkit)
@@ -52,16 +57,16 @@ N.B.: While you may call that first workflow `Kobo-to-Postgres`, it's got the ID
 
 ### .config.json
 
-Your `.config.json` contains settings for the CLI,
-it can also have sensitive information about _where_ you're
-deploying a project and what apiToken to use when you call `devtools deploy`.
+Your `.config.json` contains settings for the CLI, it can also have sensitive
+information about _where_ you're deploying a project and what apiToken to use
+when you call `devtools deploy`.
 
 ```json
 {
   "email": "taylor@openfn.org",
   "apiToken": "123-abc-456",
   "apiUrl": "https://demo.openfn.org/api/v2",
-  "createBlankCredentials": true,
+  "createBlankCredentials": true
 }
 ```
 
@@ -201,9 +206,13 @@ cli run --workflow "My Big Project.CommCare-to-OpenMRS" -o ./tmp --adaptors ./lo
 
 These will turn into GitHub issues soon 🙏
 
-- [ ] do the first thing
-- [ ] do the second thing
-- [ ] do the last thing
+- [ ] Export project in Lightning. Create a function which generates a series of
+      workflow folders with jobs files and and a project.yaml according to the
+      outlined example. Add a button to the UI which allows users to export
+      their project.
+- [ ] Add an option to export projects from `OpenFn/platform-app` as v4
+      specification for Lightning
+- [ ] Deploy a Lightning project through the cli
 
 ### Out of scope for this phase
 

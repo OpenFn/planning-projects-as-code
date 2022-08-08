@@ -1,3 +1,15 @@
-my-salesforce-credential:
-  username: my-actual-username
-  password: this-is-really-my-password-and-ill-never-commit-it-to-github
+# This file contains overrides for running workflows and jobs locally - they do not apply to deployments
+# On project export, the credentials key are added but not the values - it is for the user to add these later
+# Credentials values should never be committed to github
+
+credentials:
+  # When generated from Lightning, credential values are masked
+  my-dhis2-credential:
+    host: ***
+    username: ***
+    password: ***
+
+  # The CLI user can include real secrets here and _NOT_ track them in git.
+  my-fhir-credential:
+    username: my-actual-username
+    password: this-is-really-my-password-and-I-will-not-track-it-in-git

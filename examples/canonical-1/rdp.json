@@ -1,10 +1,5 @@
 {
-  "description": {
-    // Look no red lines for stu!
-    "what it is": "a 'reduced deployment payload' (RDP)",
-    "how it's made": "this file is generated from project.yaml AND project.state.yaml",
-    "what it does": "it's sent to a lightning configuration endpoint"
-  },
+  "description": " This file is a 'reduced deployment payload' (RDP). I gets generated from project.yaml AND project.state.yaml and is sent to a lightning configuration endpoint",
   "projects": [
     {
       "id": "sadbmk231",

@@ -1,67 +1,45 @@
-# First define our workflows with a `workflows` key
+# This file defines all of a project's workflows, referencing
+# myProject.state.yaml and .overrides.yaml
 
-name: "My Big Project"
-endpoint: http://... 
-workflows:
-  CommCare-to-OpenMRS: #workflow names won't have spaces
-    jobs:
-      Coerce-to-FHIR:
+# The CLI reduces this project.yaml to a single JSON object (rdp.json) which it
+# sends to a sepcific endpoint, defined by the config.json
+
+name: "My Project" # The project name
+
+workflows: # All workflows in a project
+  CommCare-to-OpenMRS: #The workflow name. Workflow names won't have spaces
+    jobs: # All jobs/steps in a workflow
+      Coerce-to-FHIR: # The job/step name
         trigger: webhook #webhook urls are uids so are not included
-        # credential: "file://./tmp/secret.json"
-        credential: "My FHIR Credential" #looks up credential in state by its name
-        # credential: cli option to run with local secrets???
-        # cli run workflow "CommCare-to-OpenMRS"
-        # WARNING, you didn't give us any secrets... we'll try to get them from openfn.org
-        # but we haven't built that feature yet!
-        # cli run workflow "CommCare-to-OpenMRS" --secrets ./credentials.yaml
+        adaptor: 
+        enabled: 
+        credential: my-fihr-credential #looks up credential in state by its name
+        # when running locally, the credentials values are taken from the overrides file
         # cli run workflow "CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
-        # cli run workflow "My Big Project.CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
-        expression:  > 
-          fn(state => {
-            const {surname, age} = state.data;
-            const fhirPayload = { name: surname, age };
-            return { ...state, fhirPayload };
-          });
+        job-body: "file://./CommCare-to-OpenMRS/Coerce-to-FHIR.js" # each job job-body is stored in a separate file, within a folder for the whole workflow
 
       Load-to-openmrs:
         trigger:
           on-success: Coerce-to-FHIR
         credential: my-other-credential
-        expression: 
-          # no include: but pathlike doesn't work - if you're doing a uri you need to be exlicit about it
+        job-body: 
+          # no include: but pathlike doesn't work - if you're doing a uri you need to be explicit about it
           "file://./CommCare-to-OpenMRS/Load-to-openmrs.js" # default to local fs -- no numbering because too complicated if users change the order
-          "https://gist.github.com/foo/Load-to-openmrs.js"
-          "my code"
       
       Send-Wrap-Up-Reports:
         trigger:
           on-success: Load-to-openmrs
-        expression: >
+        job-body: >
           # this triggers a new workflow
           http.post(https://lightning.openfn.org/i/123-abc-321, state.data) 
     
-  Kobo-to-DHIS2:
+  Kobo-to-DHIS2: #This is a second workflow
     Fetch-Kobo-Submissions:
       trigger:
         cron: * 5 * * *
-  
-  Send-Confirmation-Reports:
-    send-first-email:
-      trigger: webhook
-      expression: send()
-      credential: ???
-    send-second-email:
+      job-body: "file://./Kobo-to-DHIS2/Fetch-Kobo-Submissions.js"
+    
+    Upload-to-DHIS2:
       trigger:
-        on-success: send-first-email
-      expression: >
-        send()
-      credential: ???
-
-
-
-
-
-
-# how do I run a workflow ?
-# where am I keeping m dataclips ?
-# what happens if the person doing the deployment is a github action ?
+        on-success: Fetch-Kobo-Submissions:
+      job-body: "file://./Kobo-to-DHIS2/Upload-to-DHIS2.js"
