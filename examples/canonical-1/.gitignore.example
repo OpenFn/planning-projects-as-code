@@ -1,0 +1,5 @@
+# Ignore the CLI configuration file
+/.config.json
+
+# Ignore project.yaml overrides (as these are often used to store secrets)
+/.overrides.yaml

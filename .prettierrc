@@ -1,4 +1,6 @@
 {
   "printWidth": 80,
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "arrowParens": "avoid",
+  "singleQuote": true
 }
