@@ -9,7 +9,6 @@ name: "My Project" # The project name
 globals: # All global constants accessible to this project
   clinic-map: file://./globals/clinic-map.json
   project-expense-codes: file://./globals/project-expense-codes.json
-
   service-codes:
     body:
       m126: Medical Referral
