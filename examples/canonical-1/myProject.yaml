@@ -31,30 +31,38 @@ workflows: # All workflows in a project
       Load-to-openmrs:
         trigger:
           on-success: Coerce-to-FHIR
+        adaptor: language-openmrs
         credential: my-other-credential
         enabled: true
-        adaptor: language-openmrs
         body: 
-          # no include: but pathlike doesn't work - if you're doing a uri you need to be explicit about it
-          "file://./CommCare-to-OpenMRS/Load-to-openmrs.js" # default to local fs -- no numbering because too complicated if users change the order
+          # no "include", but pathlike doesn't work: if you're doing a uri you need to be explicit about it
+          # default to local fs -- no numbering because too complicated if users change the order
+          "file://./CommCare-to-OpenMRS/Load-to-openmrs.js" 
       
       Send-Wrap-Up-Reports:
         trigger:
           on-success: Load-to-openmrs
+        enabled: true
+        adaptor: language-mailgun
         globals:
           - service-codes
           - clinic-map
         body: >
           # this triggers a new workflow
-          http.post(https://lightning.openfn.org/i/123-abc-321, state.data) 
+          fn(state => state)
+          sendEmail(state => state.emailContent)
     
   Kobo-to-DHIS2: #This is a second workflow
     Fetch-Kobo-Submissions:
       trigger:
         cron: * 5 * * *
+      enabled: true
+      adaptor: language-kobotoolbox
       body: "file://./Kobo-to-DHIS2/Fetch-Kobo-Submissions.js"
     
     Upload-to-DHIS2:
       trigger:
-        on-success: Fetch-Kobo-Submissions:
+        on-success: Fetch-Kobo-Submissions
+      adaptor: language-kobotoolbox
+      enabled: false
       body: "file://./Kobo-to-DHIS2/Upload-to-DHIS2.js"

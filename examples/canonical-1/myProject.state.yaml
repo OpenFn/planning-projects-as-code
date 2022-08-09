@@ -5,27 +5,43 @@
 # state maps project.yaml keys to UUIDs in db tables?
 
 project:
-  - id: 'abc'
+  - id: '45bffee'
     key: 'My Project'
 
+globals:
+  - id: 'sj23n36'
+    key: 'clinic-map'
+  - id: 'bss522g'
+    key: 'project-expense-codes'
+  - id: '22aa4st'
+    key: 'service-codes'
+
 workflows:
-  - id: 'abc'
+  - id: 'cfd7c68'
     key: 'CommCare-to-OpenMRS' # this is the NAME and the KEY
+  - id: 'd1ecc4f'
+    key: 'Kobo-to-DHIS2'
 
 jobs:
-  - id: '123'
+  - id: 'ns6yw54'
     key: Coerce-to-FHIR
-  - id: '456'
+  - id: '12bs52j'
     key: 'Load-to-openmrs'
+  - id: 'lk81hs6'
+    key: 'Send-Wrap-Up-Reports'
+
+  - id: 'sn26sh2'
+    key: 'Fetch-Kobo-Submissions'
+  - id: 'sk1722h'
+    key: 'Upload-to-DHIS2'
 
 credentials:
-  - id: 'abc-1234'
+  - id: '12ms62y'
     key: 'My FHIR Credential'
-
 # prototype-1.yaml.state -- running a deployment on two different instances of lightning ? - matching an addressable path in the structure to a resource
-workflows.CommCare-to-OpenMRS:
-  id: 56743...
-  jobs:
+# workflows.CommCare-to-OpenMRS:
+#   id: 56743...
+#   jobs:
 # This operation is performed on the state file
 # cli mv workflows.CommCare-to-OpenMRS workflows.CommCare-to-Zapier
 
