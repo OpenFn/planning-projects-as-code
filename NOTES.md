@@ -2,72 +2,75 @@
 
 ## Behaviour Wish List
 
-1. Be able to create a project.yaml file from a Lightning project
+### (1) Be able to create a project.yaml file from a Lightning project
 
-   - Create a function in Lightning which queries our databases to return all of
-     the project info and generates a series of jobs, folders, and project.yaml
+Create a function in Lightning which queries our databases to return all of the
+project info and generates a series of jobs, folders, and project.yaml
 
-     The `project.zip` structure and files:
+The `project.zip` structure and files:
 
-     ```
-     /globals
-     /workflow-a
-        job-1.js
-        job-2.js
-        job-3.js
-     /workflow-b
-        job-4.js
-     project.yaml
-     project.state.yaml
-     ```
+```
+/globals
+   global-1.json
+   global-2.json
+/workflow-a
+   job-1.js
+   job-2.js
+   job-3.js
+/workflow-b
+   job-4.js
+project.yaml
+project.state.yaml
+.overrides.yaml
+```
 
-     The `project.state.yaml`:
+The `project.state.yaml`:
 
-     ```yaml
-     workflows:
-     - id: "32hjkd1"
-     key: "workflow-a"
-     - id: "d712js1"
-     key: "workflow-b"
+```yaml
+globals:
+  - id: 'cBsdA88'
+    key: 'global-1'
 
-     jobs:
-     - id: "jk232hj"
-     key: job-1
-     - id: "l6s1n3"
-     key: "job-2"
+workflows:
+  - id: '32hjkd1'
+    key: 'workflow-a'
+  - id: 'd712js1'
+    key: 'workflow-b'
 
-     credentials:
-     - id: "cae14s"
-     key: "credential-1"
-     ```
+jobs:
+  - id: 'jk232hj'
+    key: job-1
+  - id: 'l6s1n3'
+    key: 'job-2'
 
-2. Be able to send a yaml or json payload to a Lightning instance and have it
-   perform the necessary operations to reflect the desired configuration.
+credentials:
+  - id: 'cae14s'
+    key: 'credential-1'
+```
 
-   - Write a CLI in [kit](https://github.com/OpenFn/kit).
-   - Write a function that takes a `reduced-deployment-payload.json` and
-     generates a changeset.
-     - For the CLI this is `plan`
-     - For the server this is `Ecto.changeset()`
-   - Respond to the CLI with the changeset.
-   - Write a function that takes a changeset and implements those changes.
-     - For the CLI this is `apply`
-     - For the server this is `Repo.multi()`
+### (2) Be able to send a yaml or json payload to a Lightning instance and have it perform the necessary operations to reflect the desired configuration.
 
-3. Be able to export a project from `OpenFn/platform-app` and convert it into a
-   Lightning project?
+- Write a CLI in [kit](https://github.com/OpenFn/kit).
+- Write a function that takes a `reduced-deployment-payload.json` and generates
+  a changeset.
+  - For the CLI this is `plan`
+  - For the server this is `Ecto.changeset()`
+- Respond to the CLI with the changeset.
+- Write a function that takes a changeset and implements those changes.
+  - For the CLI this is `apply`
+  - For the server this is `Repo.multi()`
 
-   - Give users the option to export as `v3` (microservice) and `v4` (lightning)
-   - Write a big Ecto/Sql thing. (Base it on
-     `lib/open_fn_web/controllers/export_controller.ex:369`)
+### (3) Be able to export a project from `OpenFn/platform-app` and convert it into a Lightning project
 
-4. Be able to run a workflow or a single job in a workflow with an arbitrary
-   input state from the CLI, without needing to talk to a Lightning server.
+- Give users the option to export as `v3` (microservice) and `v4` (lightning)
+- Write a big Ecto/Sql thing. (Base it on
+  `lib/open_fn_web/controllers/export_controller.ex:369`)
 
-   - Provide an entrypoint for `execute`
-   - Run 'expression/reference to expression' with 'this state/reference to
-     state',
-   - Run 'reference to job' with ...
+### (4) Be able to run a workflow or a single job in a workflow with an arbitrary input state from the CLI, without needing to talk to a Lightning server.
+
+- Provide an entrypoint for `execute`
+- Run 'expression/reference to expression' with 'this state/reference to state',
+- Run 'reference to job' with ...
 
 ## Amber's Non-Negotiables
 

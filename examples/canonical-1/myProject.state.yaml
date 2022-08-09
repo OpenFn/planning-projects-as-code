@@ -5,24 +5,24 @@
 # state maps project.yaml keys to UUIDs in db tables?
 
 project:
-  - id: "abc"
-    key: "My Project"
+  - id: 'abc'
+    key: 'My Project'
 
 workflows:
-  - id: "abc"
-    key: "CommCare-to-OpenMRS" # this is the NAME and the KEY
+  - id: 'abc'
+    key: 'CommCare-to-OpenMRS' # this is the NAME and the KEY
 
 jobs:
-  - id: "123"
+  - id: '123'
     key: Coerce-to-FHIR
-  - id: "456"
-    key: "Load-to-openmrs"
+  - id: '456'
+    key: 'Load-to-openmrs'
 
 credentials:
-  - id: "abc-1234"
-    key: "My FHIR Credential"
+  - id: 'abc-1234'
+    key: 'My FHIR Credential'
 
-# prototype-1.yaml.tfstate -- running a deployment on two different instances of lightning ? - matching an addressable path in the structure to a resource
+# prototype-1.yaml.state -- running a deployment on two different instances of lightning ? - matching an addressable path in the structure to a resource
 workflows.CommCare-to-OpenMRS:
   id: 56743...
   jobs:

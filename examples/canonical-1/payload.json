@@ -1,5 +1,5 @@
 {
-  "description": " This file is a 'reduced deployment payload' (RDP). I gets generated from project.yaml AND project.state.yaml and is sent to a lightning configuration endpoint",
+  "description": " This file is a 'reduced deployment payload' (or 'payload'). It gets generated from project.yaml AND project.state.yaml and is sent to a lightning configuration endpoint.",
   "projects": [
     {
       "id": "sadbmk231",

@@ -1,35 +1,50 @@
 # This file defines all of a project's workflows, referencing
 # myProject.state.yaml and .overrides.yaml
 
-# The CLI reduces this project.yaml to a single JSON object (rdp.json) which it
-# sends to a sepcific endpoint, defined by the config.json
+# The CLI reduces this project.yaml to a single JSON object (payload.json) which
+# it sends to a specific endpoint, defined by the config.json
 
 name: "My Project" # The project name
+
+globals: # All global constants accessible to this project
+  clinic-map: file://./globals/clinic-map.json
+  project-expense-codes: file://./globals/project-expense-codes.json
+
+  service-codes:
+    body:
+      m126: Medical Referral
+      g01: General Checkup
+      ps: Psycho-social Support
 
 workflows: # All workflows in a project
   CommCare-to-OpenMRS: #The workflow name. Workflow names won't have spaces
     jobs: # All jobs/steps in a workflow
       Coerce-to-FHIR: # The job/step name
         trigger: webhook #webhook urls are uids so are not included
-        adaptor: 
-        enabled: 
+        adaptor: language-fhir
+        enabled: true
         credential: my-fihr-credential #looks up credential in state by its name
         # when running locally, the credentials values are taken from the overrides file
         # cli run workflow "CommCare-to-OpenMRS" --overrides ./keys-and-values.yaml
-        job-body: "file://./CommCare-to-OpenMRS/Coerce-to-FHIR.js" # each job job-body is stored in a separate file, within a folder for the whole workflow
+        body: "file://./CommCare-to-OpenMRS/Coerce-to-FHIR.js" # each job job-body is stored in a separate file, within a folder for the whole workflow
 
       Load-to-openmrs:
         trigger:
           on-success: Coerce-to-FHIR
         credential: my-other-credential
-        job-body: 
+        enabled: true
+        adaptor: language-openmrs
+        body: 
           # no include: but pathlike doesn't work - if you're doing a uri you need to be explicit about it
           "file://./CommCare-to-OpenMRS/Load-to-openmrs.js" # default to local fs -- no numbering because too complicated if users change the order
       
       Send-Wrap-Up-Reports:
         trigger:
           on-success: Load-to-openmrs
-        job-body: >
+        globals:
+          - service-codes
+          - clinic-map
+        body: >
           # this triggers a new workflow
           http.post(https://lightning.openfn.org/i/123-abc-321, state.data) 
     
@@ -37,9 +52,9 @@ workflows: # All workflows in a project
     Fetch-Kobo-Submissions:
       trigger:
         cron: * 5 * * *
-      job-body: "file://./Kobo-to-DHIS2/Fetch-Kobo-Submissions.js"
+      body: "file://./Kobo-to-DHIS2/Fetch-Kobo-Submissions.js"
     
     Upload-to-DHIS2:
       trigger:
         on-success: Fetch-Kobo-Submissions:
-      job-body: "file://./Kobo-to-DHIS2/Upload-to-DHIS2.js"
+      body: "file://./Kobo-to-DHIS2/Upload-to-DHIS2.js"

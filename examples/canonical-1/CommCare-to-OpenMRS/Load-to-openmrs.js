@@ -1,5 +1,12 @@
-fn((state) => {
-  const { surname, age } = state.data;
-  const fhirPayload = { name: surname, age };
-  return { ...state, fhirPayload };
+createEncounter({
+  encounterDatetime: dataValue('visit_date'),
+  patient: dataValue('uuid'),
+  encounterType: dataValue('visit_type'),
+  location: dataValue('location.uuid'),
+  encounterProviders: [
+    {
+      provider: dataValue('provider_name'),
+      encounterRole: '240b26f9-dd88-4172-823d-4a8bfeb7841f',
+    },
+  ],
 });

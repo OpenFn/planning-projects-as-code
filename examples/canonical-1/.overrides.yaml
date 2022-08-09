@@ -3,7 +3,7 @@
 # Credentials values should never be committed to github
 
 credentials:
-  # When generated from Lightning, credential values are masked
+  # Note that when generated from Lightning, credential values are masked
   my-dhis2-credential:
     host: ***
     username: ***
