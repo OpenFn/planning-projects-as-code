@@ -1,3 +1,5 @@
+# ⚠️ N.B., this planning repo has been archived. For projects-as-code documentation, see docs.openfn.org and search "portability".
+
 _This repository outlines the specification v4 for making OpenFn integrations
 completely portable. It has been written as part of the deliverable 6.1
 'Specification for Lightning projects-as-code' of the Digital Square Global
